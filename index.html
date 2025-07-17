@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Weather-app </title>
+    <link rel="stylesheet" href="style.css">
+    <script src='./script.js' defer></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="main-container">
+        <div class="blur-div" ></div>
+        <div class="sub-container">
+            <div class="blur-sub-div" ></div>
+            <div class="navbar">
+        <input type="text" class="city" placeholder="Enter the city you want to search">
+        <div class="suggestion-box"></div>
+        <button class="search-btn"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon lucide-search"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg> </button>
+            </div>
+
+            <div class="hour-forecast">
+                <div class="description-div"></div>
+                <div class="humidity-div flexed">
+                    <div class="humidity-text flexed">HUMIDITY</div>
+                    <div class="humidity-value flexed"></div>
+                </div>
+                <div class="pressure-div flexed">
+                    <div class="pressure-text flexed">PRESSURE</div>
+                    <div class="pressure-value flexed"></div>
+                </div>
+                <div class="sea-level-div flexed">
+                    <div class="sea-level-text flexed">SEA-LEVEL</div>
+                    <div class="sea-level-value flexed"></div>
+                </div>
+                <div class="wind-speed-div flexed">
+                    <div class="wind-speed-text flexed">WIND-SPEED</div>
+                    <div class="wind-speed-value flexed"></div>
+                </div>
+            </div>
+            
+            <div class="temp-div">
+                <div class="upper">
+                      <div class="temp"></div>
+                      <div class="icon"></div>
+                </div>
+                <div class="lower">
+                    <div class="location"></div>
+                    <div class="feels-like"></div>
+                </div>
+            </div>
+            
+            <div class="week-forecast flexed" ></div>
+       </div>
+ 
+    </div>
+</body>
+</html>
