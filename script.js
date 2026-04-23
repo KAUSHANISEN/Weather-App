@@ -153,8 +153,42 @@ newresult.addEventListener("click", () => {
     console.log("clicked here")
     fetchMonthlyWeather(query)
    
-  })
+  });
 
   
 
 });
+
+async function handleLogin() {
+    const userField = document.getElementById('username').value;
+    const passField = document.getElementById('password').value;
+
+    const success = await LoginUser(userField, passField);
+
+    if (success) {
+        document.getElementById('auth-wrapper').style.display = 'none';
+        document.querySelector('.main-container').style.display = 'block';
+    }
+}
+
+
+
+async function LoginUser(username,password){
+  const formData=new FormData();
+  formData.append('username',username);
+  formData.append('password',password);
+
+  const response= await fetch ("http://127.0.0.1:8000/login", {
+    method: "POST",
+    body: formData
+  })
+  if (response.ok){
+    const data=await response.json();
+    localStorage.setItem("token",data.access_token);
+    alert("Login Successful");
+    return true;
+  }else{
+    alert("Login failed. Check your credentials");
+    return false;
+  }
+}

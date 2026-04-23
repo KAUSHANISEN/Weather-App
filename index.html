@@ -5,10 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Weather-app </title>
     <link rel="stylesheet" href="style.css">
-    <script src='./script.js' defer></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
+    <div id="auth-wrapper">
+    <div class="login-card">
+        <div class="grain-overlay"></div>
+        <div class="login-header">
+            <h1>Weather.OS</h1>
+            <p>Please enter your credentials to continue</p>
+        </div>
+        
+        <div class="input-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" placeholder="e.g. subham_29" autocomplete="off">
+        </div>
+
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="••••••••">
+        </div>
+
+        <button id="login-btn" onclick="handleLogin()">Access System</button>
+        
+        <div class="footer-links">
+            <a href="#">Forgot password?</a>
+            <span> | </span>
+            <a href="#">Create account</a>
+        </div>
+    </div>
+    </div>
     <div class="main-container">
         <div class="blur-div" ></div>
         <div class="sub-container">
@@ -54,5 +80,6 @@
        </div>
  
     </div>
+    <script src='./script.js'></script>
 </body>
 </html>
