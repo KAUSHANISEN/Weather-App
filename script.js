@@ -35,14 +35,25 @@ result.addEventListener("keydown", (e) => {
 
 
 async function fetchMonthlyWeather(query) {
- try{ 
-  
-  
-    const url = await fetch(
-    `http://127.0.0.1:8000/weather?city=${query}`
-  )
 
-   const url2 = await fetch(`http://127.0.0.1:8000/forecast?city=${query}`)
+
+  const token = localStorage.getItem("token");
+
+
+ try{ 
+   
+  
+    const url = await fetch(`http://127.0.0.1:8000/weather?city=${query}`, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    });
+
+   const url2 = await fetch(`http://127.0.0.1:8000/forecast?city=${query}`, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    });
     const result = await url.json(); 
    const result2 = await url2.json();
     console.log("Full API response from Backend:", result, "forecast", result2);
@@ -141,7 +152,7 @@ async function fetchMonthlyWeather(query) {
 }
 
  
-fetchMonthlyWeather(query);
+
 
 
 
@@ -192,3 +203,5 @@ async function LoginUser(username,password){
     return false;
   }
 }
+
+fetchMonthlyWeather(query);
