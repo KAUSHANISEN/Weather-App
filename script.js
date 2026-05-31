@@ -1,7 +1,6 @@
-
 document.addEventListener("DOMContentLoaded", () => {
   let query= "kolkata";
-  let api_key= "0be67a627f200d99b3c2c148edb4951d";
+  
    let store ;
    let forecast;
    let weathercontainer = document.querySelector(".main-container");
@@ -25,7 +24,7 @@ result.addEventListener("input",(e) => {
 
 result.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
-    newresult.click(); // or directly call fetchMonthlyWeather(query);
+    newresult.click();
   }
 });
 
@@ -36,17 +35,28 @@ result.addEventListener("keydown", (e) => {
 
 
 async function fetchMonthlyWeather(query) {
+
+
+  const token = localStorage.getItem("token");
+
+
  try{ 
+   
   
-    const url = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=${api_key}&units=metric`
-  )
-   const url2 = await fetch(
-    `https://api.openweathermap.org/data/2.5/forecast?q=${query}&appid=${api_key}&units=metric`
-  )
+    const url = await fetch(`http://127.0.0.1:8000/weather?city=${query}`, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    });
+
+   const url2 = await fetch(`http://127.0.0.1:8000/forecast?city=${query}`, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    });
     const result = await url.json(); 
    const result2 = await url2.json();
-    console.log("Full API response:", result, "forecast", result2);
+    console.log("Full API response from Backend:", result, "forecast", result2);
 
     store = result?.weather[0]?.main 
      console.log( result?.weather[0]?.main )
@@ -108,28 +118,30 @@ async function fetchMonthlyWeather(query) {
           weathercontainer.style.backgroundImage= "url('./media/Snowy.jpg')";  
           subcontainer.style.backgroundImage= "url('./media/Snowy.jpg')"; 
             break;     
-    } // You’ll get monthly data here
+    }
 
       forecast = result2?.list;
       
-      forecast.map((data)=>{
-            const date = data.dt_txt.slice(0,10)
-            const hour = data.dt_txt.slice(11,19)
-            console.log(date, hour)
-            
-            const childforecastdiv = document.createElement("div");
+      if(forecast) { 
+          forecast.map((data)=>{
+                const date = data.dt_txt.slice(0,10)
+                const hour = data.dt_txt.slice(11,19)
+                console.log(date, hour)
+                
+                const childforecastdiv = document.createElement("div");
 
-            childforecastdiv.className = "child-forecast"
-            childforecastdiv.innerHTML = ` 
-            <div class="sub-child">
-             <div class="day">${date}</div>
-             <div class="time">${hour}</div>
-              <div class="icon"> </div>
+                childforecastdiv.className = "child-forecast"
+                childforecastdiv.innerHTML = ` 
+                <div class="sub-child">
+                 <div class="day">${date}</div>
+                 <div class="time">${hour}</div>
+                  <div class="icon"> </div>
 
-              <div class="temp2"> ${data.main.temp}°C </div>
-             </div>`
-            forecastdiv.appendChild(childforecastdiv)
-      }) 
+                  <div class="temp2"> ${data.main.temp}°C </div>
+                 </div>`
+                forecastdiv.appendChild(childforecastdiv)
+          }) 
+      }
 
 
 
@@ -140,7 +152,7 @@ async function fetchMonthlyWeather(query) {
 }
 
  
-fetchMonthlyWeather(query);
+
 
 
 
@@ -152,10 +164,44 @@ newresult.addEventListener("click", () => {
     console.log("clicked here")
     fetchMonthlyWeather(query)
    
-  })
+  });
 
   
 
 });
 
+async function handleLogin() {
+    const userField = document.getElementById('username').value;
+    const passField = document.getElementById('password').value;
 
+    const success = await LoginUser(userField, passField);
+
+    if (success) {
+        document.getElementById('auth-wrapper').style.display = 'none';
+        document.querySelector('.main-container').style.display = 'block';
+    }
+}
+
+
+
+async function LoginUser(username,password){
+  const formData=new FormData();
+  formData.append('username',username);
+  formData.append('password',password);
+
+  const response= await fetch ("http://127.0.0.1:8000/login", {
+    method: "POST",
+    body: formData
+  })
+  if (response.ok){
+    const data=await response.json();
+    localStorage.setItem("token",data.access_token);
+    alert("Login Successful");
+    return true;
+  }else{
+    alert("Login failed. Check your credentials");
+    return false;
+  }
+}
+
+fetchMonthlyWeather(query);
